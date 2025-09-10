@@ -2,41 +2,44 @@
 
 ```mermaid
 graph TD
-    classDef shaded fill:#f0f0f0,stroke:#333,stroke-width:2px
+    %% --- Theme & Styles ---
+    classDef shaded fill:#f9f9f9,stroke:#444,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
+    classDef database fill:#e8f4ff,stroke:#0077b6,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
+    classDef decision fill:#fff3cd,stroke:#ff9800,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
+    classDef process fill:#e6ffe6,stroke:#388e3c,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
 
-    subgraph Patient Flow
-        Patient --> LoginAsPatient[Login as Patient]
-        LoginAsPatient --> BookAppointment[Book Appointment <br/> <small>Check availability</small>]
-        BookAppointment --> Payment
-        Payment --> Confirmation
-        Confirmation --> TrackProgress
+    %% --- Patient Flow ---
+    subgraph Patient_Flow [👩‍⚕️ Patient Flow]
+        Patient([Patient]):::shaded --> LoginAsPatient[Login as Patient]:::process
+        LoginAsPatient --> BookAppointment[Book Appointment <br/> <small>Check availability</small>]:::process
+        BookAppointment --> Payment[Make Payment]:::process
+        Payment --> Confirmation[Get Confirmation]:::process
+        Confirmation --> TrackProgress[Track Progress]:::process
     end
 
-    subgraph Clinic Staff Portal
-        ClinicStaff[Clinic Staff] --> UserLogin[User Login Portal]
-        UserLogin --> AdminBox{Admin}
-        
-        subgraph A
-            AdminBox -- Reception --> LoginAdmin[Login as Reception]
-            LoginAdmin --> ManageSchedule[Manage Schedule <br/> <small>Add/Editing Appointments for all staff</small>]
+    %% --- Clinic Staff Portal ---
+    subgraph Clinic_Staff [🏥 Clinic Staff Portal]
+        ClinicStaff([Clinic Staff]):::shaded --> UserLogin[User Login Portal]:::process
+        UserLogin --> AdminBox{Admin Roles}:::decision
 
-            AdminBox -- Doctor --> ManagePatientRecords[Manage Patient Records]
-            ManagePatientRecords --> UpdatePatientRecords[Update Records, prescriptions]
+        subgraph Admin_Area [⚙️ Admin Area]
+            AdminBox -- Reception --> LoginAdmin[Login as Reception]:::process
+            LoginAdmin --> ManageSchedule[Manage Schedule <br/> <small>Add/Edit Appointments</small>]:::process
 
-           
+            AdminBox -- Doctor --> ManagePatientRecords[Manage Patient Records]:::process
+            ManagePatientRecords --> UpdatePatientRecords[Update Records & Prescriptions]:::process
         end
     end
 
-    subgraph Management Portal
-        Management --> AnalyticsDashboard["View Analytics Dashboard <br/> ☐ Core Metrics <br/> ☐ Appointment booking <br/> ☐ Revenue"]
-       
-        %% --- NEW FLOW ---
-       Management --> ViewStaffPerformance["View Staff Performance <br/><small>Client Engagement</small>"]
-
+    %% --- Management Portal ---
+    subgraph Management_Portal [📊 Management Portal]
+        Management([Management]):::shaded --> AnalyticsDashboard["View Analytics Dashboard <br/> ☐ Core Metrics <br/> ☐ Appointment Booking <br/> ☐ Revenue"]:::process
+        Management --> ViewStaffPerformance["View Staff Performance <br/><small>Client Engagement</small>"]:::process
     end
 
-    subgraph Database
-        CentralDB[(Central Patient Database)]
+    %% --- Central Database ---
+    subgraph Database [💾 Central Database]
+        CentralDB[(Central Patient Database)]:::database
     end
 
     %% --- Connections ---
@@ -46,5 +49,3 @@ graph TD
    
     CentralDB --> AnalyticsDashboard
     CentralDB --> ViewStaffPerformance
-
-   

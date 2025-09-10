@@ -1,11 +1,17 @@
 ### AyurSutra Clinic Flowchart
 
 ```mermaid
+%%{init: {"theme":"default","themeVariables": {
+  "clusterBkg": "#f9f9f9",
+  "clusterBorder": "#444",
+  "clusterTextColor": "#000"
+}}}%%
+
 graph TD
     %% --- Theme & Styles ---
     classDef shaded fill:#f9f9f9,stroke:#444,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
     classDef database fill:#e8f4ff,stroke:#0077b6,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
-    classDef decision fill:#fff3cd,stroke:#ff9800,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
+    classDef decision fill:#f2f2f2,stroke:#888,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
     classDef process fill:#e6ffe6,stroke:#388e3c,stroke-width:2px,rx:10,ry:10,color:#000,font-weight:bold
 
     %% --- Patient Flow ---
@@ -49,3 +55,4 @@ graph TD
    
     CentralDB --> AnalyticsDashboard
     CentralDB --> ViewStaffPerformance
+
